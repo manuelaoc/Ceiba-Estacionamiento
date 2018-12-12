@@ -1,6 +1,8 @@
 pipeline {
  //Donde se va a ejecutar el Pipeline
-	 
+	 agent {
+	 	label 'principal'
+	 }
 	
 	 //Opciones específicas de Pipeline dentro del Pipeline
 	 options {
