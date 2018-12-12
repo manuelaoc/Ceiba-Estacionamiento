@@ -32,7 +32,7 @@ pipeline {
 					submoduleCfg: [], 
 					userRemoteConfigs: 
 						[[
-							credentialsId: 'manuela.osorio', 
+							credentialsId: 'GitHub_manuelaoc', 
 							url: 'https://github.com/manuelaoc/Ceiba-Estacionamiento.git'
 						]]])
 						
