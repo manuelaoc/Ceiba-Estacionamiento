@@ -15,8 +15,8 @@ pipeline {
 	 
 	  //Una sección que define las herramientas para “autoinstalar” y poner en la PATH
 	 tools {
-	 	jdk 'JDK8_Centos' //Preinstalada en la Configuración del Master
-		gradle 'Gradle4.5_Centos' //Preinstalada en la Configuración del Master
+	 	jdk 'JAVA_LOCAL' //Preinstalada en la Configuración del Master
+		gradle 'GRADLE_LOCAL' //Preinstalada en la Configuración del Master
 	 }
 	 
 	 //Aquí comienzan los “items” del Pipeline
@@ -28,7 +28,7 @@ pipeline {
 		 			branches: [[name: '*/master']],
 					doGenerateSubmoduleConfigurations: false, 
 					extensions: [], 
-					gitTool: 'Git_Centos', 
+					gitTool: 'GIT_LOCAL', 
 					submoduleCfg: [], 
 					userRemoteConfigs: 
 						[[
