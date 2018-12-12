@@ -1,7 +1,7 @@
 pipeline {
  //Donde se va a ejecutar el Pipeline
 	 agent {
-	 	label 'principal'
+	 	label 'Slave_Induccion'
 	 }
 	
 	 //Opciones específicas de Pipeline dentro del Pipeline
@@ -15,8 +15,8 @@ pipeline {
 	 
 	  //Una sección que define las herramientas para “autoinstalar” y poner en la PATH
 	 tools {
-	 	jdk 'JAVA_LOCAL' //Preinstalada en la Configuración del Master
-		gradle 'GRADLE_LOCAL' //Preinstalada en la Configuración del Master
+	 	jdk 'JDK8_Centos' //Preinstalada en la Configuración del Master
+		gradle 'Gradle4.5_Centos' //Preinstalada en la Configuración del Master
 	 }
 	 
 	 //Aquí comienzan los “items” del Pipeline
@@ -28,7 +28,7 @@ pipeline {
 		 			branches: [[name: '*/master']],
 					doGenerateSubmoduleConfigurations: false, 
 					extensions: [], 
-					gitTool: 'GIT_LOCAL', 
+					gitTool: 'Git_Centos', 
 					submoduleCfg: [], 
 					userRemoteConfigs: 
 						[[
