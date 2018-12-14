@@ -26,7 +26,7 @@ public class VehiculoDAOImpl implements VehiculoDAO{
 	}
 
 	@Override
-	public void crearVehiculo(Vehiculo vehiculo) {
-		vehiculoRepository.save(vehiculo);
+	public Vehiculo crearVehiculo(Vehiculo vehiculo) {
+		return vehiculoRepository.save(vehiculo);
 	}
 }

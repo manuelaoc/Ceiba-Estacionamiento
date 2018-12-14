@@ -1,5 +1,8 @@
 package com.ceiba.estacionamiento.model.enumeration;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum TipoVehiculo {
 	CARRO(1, "Carro"),
 	MOTO(2, "Moto");
@@ -20,4 +23,7 @@ public enum TipoVehiculo {
 		return descripcion;
 	}
 	
-}
+	public static List<TipoVehiculo> getTipoVehiculos(){
+		return Arrays.asList(TipoVehiculo.values());
+	}
+} 
