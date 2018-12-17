@@ -10,4 +10,5 @@ public interface EstacionamientoDAO {
 	void registrarEstacionamiento(Estacionamiento estacionamiento);
 	Integer countVehiculosByTipo(Integer idTipoVehiculo);
 	Estacionamiento getVehiculoEstacionado(String placa);
+	Boolean validarSiEsPosibleEstacionar(Estacionamiento estacionamiento);
 }

@@ -3,14 +3,14 @@ package com.ceiba.estacionamiento.model.enumeration;
 import java.util.Arrays;
 import java.util.List;
 
-public enum TipoVehiculo {
+public enum TipoVehiculoEnum {
 	CARRO(1, "Carro"),
 	MOTO(2, "Moto");
 	
 	private final Integer id;
 	private final String descripcion;
 	
-	TipoVehiculo(Integer id, String descripcion) {
+	TipoVehiculoEnum(Integer id, String descripcion) {
 		this.id = id;
 		this.descripcion = descripcion;
 	}
@@ -23,7 +23,7 @@ public enum TipoVehiculo {
 		return descripcion;
 	}
 	
-	public static List<TipoVehiculo> getTipoVehiculos(){
-		return Arrays.asList(TipoVehiculo.values());
+	public static List<TipoVehiculoEnum> getTipoVehiculos(){
+		return Arrays.asList(TipoVehiculoEnum.values());
 	}
 } 
