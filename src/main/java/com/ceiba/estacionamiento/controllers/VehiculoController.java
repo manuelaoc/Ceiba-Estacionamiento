@@ -27,13 +27,13 @@ public class VehiculoController {
 	private VehiculoDAO vehiculoDAO;
 	
 	@GetMapping(VEHICULO)
-	public ResponseEntity<List<Vehiculo>> getVehiculos(){
-		return new ResponseEntity<>(vehiculoDAO.getVehiculos(), HttpStatus.OK);
+	public ResponseEntity<List<Vehiculo>> obtenerVehiculos(){
+		return new ResponseEntity<>(vehiculoDAO.obtenerVehiculos(), HttpStatus.OK);
 	}
 	
 	@GetMapping(VEHICULO+"/{placa}")
-	public ResponseEntity<Vehiculo> getVehiculoByPlaca(@PathVariable String placa){
-		return new ResponseEntity<>(vehiculoDAO.getVehiculoByPlaca(placa), HttpStatus.OK);
+	public ResponseEntity<Vehiculo> obtenerVehiculoByPlaca(@PathVariable String placa){
+		return new ResponseEntity<>(vehiculoDAO.obtenerVehiculoByPlaca(placa), HttpStatus.OK);
 	}
 
 	@PostMapping(VEHICULO)

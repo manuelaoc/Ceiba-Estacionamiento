@@ -23,7 +23,7 @@ public enum TipoVehiculoEnum {
 		return descripcion;
 	}
 	
-	public static List<TipoVehiculoEnum> getTipoVehiculos(){
+	public static List<TipoVehiculoEnum> obtenerTipoVehiculos(){
 		return Arrays.asList(TipoVehiculoEnum.values());
 	}
 } 

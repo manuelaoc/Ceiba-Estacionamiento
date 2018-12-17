@@ -11,11 +11,11 @@ import com.ceiba.estacionamiento.model.Estacionamiento;
 public interface EstacionamientoRepository extends JpaRepository<Estacionamiento, Long> {
 	
 	@Query("SELECT est FROM Estacionamiento est WHERE est.vehiculo.placa = (:placa)")
-	Estacionamiento findEstacionamientoByPlaca(@Param("placa") String placa);
+	Estacionamiento buscarEstacionamientoByPlaca(@Param("placa") String placa);
 	
 	@Query("SELECT COUNT(est) FROM Estacionamiento est WHERE est.fechaSalida IS NULL AND est.precio IS NULL AND est.vehiculo.tipoVehiculo.id = (:idTipoVehiculo)")
-	Integer countVehiculosByTipo(@Param("idTipoVehiculo") Integer idTipoVehiculo);
+	Integer contarVehiculosByTipo(@Param("idTipoVehiculo") Integer idTipoVehiculo);
 	
 	@Query("SELECT est FROM Estacionamiento est WHERE est.vehiculo.placa = (:placa) AND est.fechaSalida IS NULL AND est.precio IS NULL")
-	Estacionamiento getVehiculoEstacionado(@Param("placa") String placa);
+	Estacionamiento obtenerVehiculoEstacionado(@Param("placa") String placa);
 }

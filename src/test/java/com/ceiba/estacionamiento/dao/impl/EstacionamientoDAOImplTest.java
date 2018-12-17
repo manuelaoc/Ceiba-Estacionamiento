@@ -64,7 +64,7 @@ public class EstacionamientoDAOImplTest {
 	@Test
 	public void estacionamientoTieneCuposCarroTest() {
 		// arrange
-		when(estacionamientoDAOImpl.countVehiculosByTipo(TipoVehiculoEnum.CARRO.getId())).thenReturn(0);
+		when(estacionamientoDAOImpl.contarVehiculosByTipo(TipoVehiculoEnum.CARRO.getId())).thenReturn(0);
 		
 		// act
 		Boolean tieneCupos = estacionamientoDAOImpl.validarCantidadVehiculos(TipoVehiculoEnum.CARRO.getId());
@@ -77,7 +77,7 @@ public class EstacionamientoDAOImplTest {
 	@Test
 	public void estacionamientoNoTieneCuposCarroTest() {
 		// arrange
-		when(estacionamientoDAOImpl.countVehiculosByTipo(TipoVehiculoEnum.CARRO.getId())).thenReturn(21);
+		when(estacionamientoDAOImpl.contarVehiculosByTipo(TipoVehiculoEnum.CARRO.getId())).thenReturn(21);
 		
 		// act
 		Boolean tieneCupos = estacionamientoDAOImpl.validarCantidadVehiculos(TipoVehiculoEnum.CARRO.getId());
@@ -90,7 +90,7 @@ public class EstacionamientoDAOImplTest {
 	@Test
 	public void estacionamientoTieneCuposMotoTest() {
 		// arrange
-		when(estacionamientoDAOImpl.countVehiculosByTipo(TipoVehiculoEnum.MOTO.getId())).thenReturn(0);
+		when(estacionamientoDAOImpl.contarVehiculosByTipo(TipoVehiculoEnum.MOTO.getId())).thenReturn(0);
 		
 		// act
 		Boolean tieneCupos = estacionamientoDAOImpl.validarCantidadVehiculos(TipoVehiculoEnum.MOTO.getId());
@@ -102,7 +102,7 @@ public class EstacionamientoDAOImplTest {
 	@Test
 	public void estacionamientoNoTieneCuposMotoTest() {
 		// arrange
-		when(estacionamientoDAOImpl.countVehiculosByTipo(TipoVehiculoEnum.MOTO.getId())).thenReturn(21);
+		when(estacionamientoDAOImpl.contarVehiculosByTipo(TipoVehiculoEnum.MOTO.getId())).thenReturn(21);
 		
 		// act
 		Boolean tieneCupos = estacionamientoDAOImpl.validarCantidadVehiculos(TipoVehiculoEnum.MOTO.getId());
@@ -152,7 +152,7 @@ public class EstacionamientoDAOImplTest {
 	public void validarVehiculoYaEsteEstacionadoTest() {
 		// arrange
 		Estacionamiento estacionamiento = new EstacionamientoTestDataBuilder().build();
-		when(estacionamientoDAOImpl.getVehiculoEstacionado(estacionamiento.getVehiculo().getPlaca())).thenReturn(estacionamiento);
+		when(estacionamientoDAOImpl.obtenerVehiculoEstacionado(estacionamiento.getVehiculo().getPlaca())).thenReturn(estacionamiento);
 				
 		// act
 		Boolean vehiculoEstacionado = estacionamientoDAOImpl.validarEstaEstacionadoVehiculo(estacionamiento.getVehiculo().getPlaca());
@@ -165,10 +165,10 @@ public class EstacionamientoDAOImplTest {
 	public void obtenerVehiculoPorPlacaTest() {
 		// arrange
 		Estacionamiento estacionamiento = new EstacionamientoTestDataBuilder().build();
-		when(estacionamientoDAOImpl.getEstacionamientoByPlaca(estacionamiento.getVehiculo().getPlaca())).thenReturn(estacionamiento);
+		when(estacionamientoDAOImpl.obtenerEstacionamientoByPlaca(estacionamiento.getVehiculo().getPlaca())).thenReturn(estacionamiento);
 				
 		// act
-		Estacionamiento estacionamientoActual = estacionamientoDAOImpl.getEstacionamientoByPlaca(estacionamiento.getVehiculo().getPlaca());
+		Estacionamiento estacionamientoActual = estacionamientoDAOImpl.obtenerEstacionamientoByPlaca(estacionamiento.getVehiculo().getPlaca());
 		
 		//assert
 		assertEquals(estacionamiento, estacionamientoActual);;
@@ -205,7 +205,7 @@ public class EstacionamientoDAOImplTest {
 	public void validarSiEsPosibleEstacionarCantidadEstacionadaMaxTest() {
 		// arrange
 		Estacionamiento estacionamiento = new EstacionamientoTestDataBuilder().build();
-		when(estacionamientoDAOImpl.countVehiculosByTipo(TipoVehiculoEnum.MOTO.getId())).thenReturn(20);
+		when(estacionamientoDAOImpl.contarVehiculosByTipo(TipoVehiculoEnum.MOTO.getId())).thenReturn(20);
 		
 		// act
 		try {
@@ -234,7 +234,7 @@ public class EstacionamientoDAOImplTest {
 	public void validarSiEsPosibleEstacionarVehiculoYaIngresadoTest() {
 		// arrange
 		Estacionamiento estacionamiento = new EstacionamientoTestDataBuilder().conFechaIngreso("18/12/2018").build();
-		when(estacionamientoDAOImpl.getVehiculoEstacionado(estacionamiento.getVehiculo().getPlaca())).thenReturn(estacionamiento);
+		when(estacionamientoDAOImpl.obtenerVehiculoEstacionado(estacionamiento.getVehiculo().getPlaca())).thenReturn(estacionamiento);
 		
 		// act
 		try {

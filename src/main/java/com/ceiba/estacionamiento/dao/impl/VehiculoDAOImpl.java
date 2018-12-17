@@ -16,12 +16,12 @@ public class VehiculoDAOImpl implements VehiculoDAO{
 	private VehiculoRepository vehiculoRepository;
 	
 	@Override
-	public List<Vehiculo> getVehiculos() {
+	public List<Vehiculo> obtenerVehiculos() {
 		return vehiculoRepository.findAll();
 	}
 
 	@Override
-	public Vehiculo getVehiculoByPlaca(String placa) {
+	public Vehiculo obtenerVehiculoByPlaca(String placa) {
 		return vehiculoRepository.findByPlaca(placa);
 	}
 
