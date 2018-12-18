@@ -1,16 +1,16 @@
-package com.ceiba.estacionamiento.dao.impl;
+package com.ceiba.estacionamiento.service.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ceiba.estacionamiento.dao.VehiculoDAO;
 import com.ceiba.estacionamiento.model.Vehiculo;
 import com.ceiba.estacionamiento.repository.VehiculoRepository;
+import com.ceiba.estacionamiento.service.VehiculoService;
 
 @Service
-public class VehiculoDAOImpl implements VehiculoDAO{
+public class VehiculoServiceImpl implements VehiculoService{
 
 	@Autowired
 	private VehiculoRepository vehiculoRepository;

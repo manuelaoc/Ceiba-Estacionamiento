@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,14 +26,14 @@ public class Vehiculo implements Serializable {
 	@Column(name = "cilindraje")
 	private Integer cilindraje;
 	
-	@ManyToOne(optional = false)
-	private TipoVehiculo tipoVehiculo;
+	@Column(name = "tipo_vehiculo")
+	private Integer tipoVehiculo;
 	
 	public Vehiculo() {
 		super();
 	}
 	
-	public Vehiculo(Integer id, String placa, Integer cilindraje, TipoVehiculo tipoVehiculo) {
+	public Vehiculo(Integer id, String placa, Integer cilindraje, Integer tipoVehiculo) {
 		super();
 		this.id = id;
 		this.placa = placa;
@@ -66,11 +65,11 @@ public class Vehiculo implements Serializable {
 		this.cilindraje = cilindraje;
 	}
 
-	public TipoVehiculo getTipoVehiculo() {
+	public Integer getTipoVehiculo() {
 		return tipoVehiculo;
 	}
 
-	public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
+	public void setTipoVehiculo(Integer tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
 	}
 }

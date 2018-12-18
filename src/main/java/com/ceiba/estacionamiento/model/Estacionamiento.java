@@ -8,11 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "estacionamiento")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Estacionamiento implements Serializable {
 	
 	private static final long serialVersionUID = -7420019877880532542L;
@@ -85,5 +88,13 @@ public class Estacionamiento implements Serializable {
 
 	public void setPrecio(Double precio) {
 		this.precio = precio;
+	}
+	
+	public Boolean validarCantidadVehiculos(Integer cantidadVehiculos) {
+		return false;
+	}
+	
+	public Double calcularPrecio(int horasDiferencia, int diasDiferencia, Integer cilindraje) {
+		return 0D;
 	}
 }

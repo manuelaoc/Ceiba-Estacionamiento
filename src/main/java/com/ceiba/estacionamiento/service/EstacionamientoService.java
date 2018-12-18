@@ -1,15 +1,15 @@
-package com.ceiba.estacionamiento.dao;
+package com.ceiba.estacionamiento.service;
 
 import java.util.List;
 
+import com.ceiba.estacionamiento.dto.EstacionamientoDTO;
 import com.ceiba.estacionamiento.model.Estacionamiento;
 
-public interface EstacionamientoDAO {
+public interface EstacionamientoService {
 	List<Estacionamiento> obtenerEstacionamientos();
 	Estacionamiento obtenerEstacionamientoByPlaca(String placa);
-	void registrarIngresoEstacionamiento(Estacionamiento estacionamiento);
+	void registrarIngresoEstacionamiento(EstacionamientoDTO estacionamientoDTO);
 	Integer contarVehiculosByTipo(Integer idTipoVehiculo);
 	Estacionamiento obtenerVehiculoEstacionado(String placa);
-	Boolean validarSiEsPosibleEstacionar(Estacionamiento estacionamiento);
-	void registrarSalidaEstacionamiento(Estacionamiento estacionamiento);
+	void registrarSalidaEstacionamiento(EstacionamientoDTO estacionamientoDTO);
 }

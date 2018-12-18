@@ -18,10 +18,10 @@ import org.mockito.Mockito;
 
 import com.ceiba.estacionamiento.controllers.errors.CeibaException;
 import com.ceiba.estacionamiento.model.Estacionamiento;
-import com.ceiba.estacionamiento.model.TipoVehiculo;
 import com.ceiba.estacionamiento.model.Vehiculo;
 import com.ceiba.estacionamiento.model.enumeration.TipoVehiculoEnum;
 import com.ceiba.estacionamiento.repository.EstacionamientoRepository;
+import com.ceiba.estacionamiento.service.impl.EstacionamientoServiceImpl;
 import com.ceiba.estacionamiento.testdatabuilder.EstacionamientoTestDataBuilder;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
 
@@ -35,12 +35,12 @@ public class EstacionamientoDAOImplTest {
 	EstacionamientoRepository estacionamientoRepository;
 
 	@InjectMocks
-	EstacionamientoDAOImpl estacionamientoDAOImpl;
+	EstacionamientoServiceImpl estacionamientoDAOImpl;
 
 	@Before
 	public void before() {
 		estacionamientoRepository = Mockito.mock(EstacionamientoRepository.class);
-		estacionamientoDAOImpl = new EstacionamientoDAOImpl(estacionamientoRepository);
+		estacionamientoDAOImpl = new EstacionamientoServiceImpl(estacionamientoRepository);
 	}
 	
 	@Test
@@ -61,67 +61,6 @@ public class EstacionamientoDAOImplTest {
 		assertFalse(existeTipoVehiculo);
 	}
 
-	@Test
-	public void estacionamientoTieneCuposCarroTest() {
-		// arrange
-		when(estacionamientoDAOImpl.contarVehiculosByTipo(TipoVehiculoEnum.CARRO.getId())).thenReturn(0);
-		
-		// act
-		Boolean tieneCupos = estacionamientoDAOImpl.validarCantidadVehiculos(TipoVehiculoEnum.CARRO.getId());
-		
-		//assert
-		assertTrue(tieneCupos);
-		
-	}
-	
-	@Test
-	public void estacionamientoNoTieneCuposCarroTest() {
-		// arrange
-		when(estacionamientoDAOImpl.contarVehiculosByTipo(TipoVehiculoEnum.CARRO.getId())).thenReturn(21);
-		
-		// act
-		Boolean tieneCupos = estacionamientoDAOImpl.validarCantidadVehiculos(TipoVehiculoEnum.CARRO.getId());
-		
-		//assert
-		assertFalse(tieneCupos);
-		
-	}
-	
-	@Test
-	public void estacionamientoTieneCuposMotoTest() {
-		// arrange
-		when(estacionamientoDAOImpl.contarVehiculosByTipo(TipoVehiculoEnum.MOTO.getId())).thenReturn(0);
-		
-		// act
-		Boolean tieneCupos = estacionamientoDAOImpl.validarCantidadVehiculos(TipoVehiculoEnum.MOTO.getId());
-		
-		//assert
-		assertTrue(tieneCupos);
-	}
-	
-	@Test
-	public void estacionamientoNoTieneCuposMotoTest() {
-		// arrange
-		when(estacionamientoDAOImpl.contarVehiculosByTipo(TipoVehiculoEnum.MOTO.getId())).thenReturn(21);
-		
-		// act
-		Boolean tieneCupos = estacionamientoDAOImpl.validarCantidadVehiculos(TipoVehiculoEnum.MOTO.getId());
-		
-		//assert
-		assertFalse(tieneCupos);
-	}
-	
-	@Test
-	public void estacionamientoTieneCuposTipoVehiculoNoPermitidoTest() {
-		// act
-		try {
-			estacionamientoDAOImpl.validarCantidadVehiculos(tipoVehiculoNoPermitido);
-		}catch (CeibaException e) {
-			//assert
-			assertEquals(EstacionamientoDAOImpl.TIPO_VEHICULO_NO_PERMITIDO, e.getMessage());
-		}
-	}
-	
 	@Test
 	public void permitirIngresoVehiculoConPlacaIniciaATest() throws ParseException {
 		// arrange
@@ -189,7 +128,7 @@ public class EstacionamientoDAOImplTest {
 	@Test
 	public void validarSiEsPosibleEstacionarTipoVehiculoNoExistenteTest() {
 		// arrange
-		Vehiculo vehiculo = new VehiculoTestDataBuilder().conTipoVehiculo(new TipoVehiculo(tipoVehiculoNoPermitido, "Camion")).build();
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conTipoVehiculo(tipoVehiculoNoPermitido).build();
 		Estacionamiento estacionamiento = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).build();
 		
 		// act
@@ -197,12 +136,12 @@ public class EstacionamientoDAOImplTest {
 			estacionamientoDAOImpl.validarSiEsPosibleEstacionar(estacionamiento);
 		}catch (CeibaException e) {
 			//assert
-			assertEquals(EstacionamientoDAOImpl.TIPO_VEHICULO_NO_PERMITIDO, e.getMessage());
+			assertEquals(EstacionamientoServiceImpl.TIPO_VEHICULO_NO_PERMITIDO, e.getMessage());
 		}
 	}
 	
 	@Test
-	public void validarSiEsPosibleEstacionarCantidadEstacionadaMaxTest() {
+	public void validarSiEsPosibleEstacionarVehiculoCapacidadMaxTest() {
 		// arrange
 		Estacionamiento estacionamiento = new EstacionamientoTestDataBuilder().build();
 		when(estacionamientoDAOImpl.contarVehiculosByTipo(TipoVehiculoEnum.MOTO.getId())).thenReturn(20);
@@ -212,7 +151,7 @@ public class EstacionamientoDAOImplTest {
 			estacionamientoDAOImpl.validarSiEsPosibleEstacionar(estacionamiento);
 		}catch (CeibaException e) {
 			//assert
-			assertEquals(EstacionamientoDAOImpl.NO_HAY_CUPOS_DISPONIBLES, e.getMessage());
+			assertEquals(EstacionamientoServiceImpl.NO_HAY_CUPOS_DISPONIBLES, e.getMessage());
 		}
 	}
 	
@@ -226,7 +165,7 @@ public class EstacionamientoDAOImplTest {
 			estacionamientoDAOImpl.validarSiEsPosibleEstacionar(estacionamiento);
 		}catch (CeibaException e) {
 			//assert
-			assertEquals(EstacionamientoDAOImpl.VEHICULO_NO_PUEDE_INGRESAR, e.getMessage());
+			assertEquals(EstacionamientoServiceImpl.VEHICULO_NO_PUEDE_INGRESAR, e.getMessage());
 		}
 	}
 	
@@ -241,7 +180,7 @@ public class EstacionamientoDAOImplTest {
 			estacionamientoDAOImpl.validarSiEsPosibleEstacionar(estacionamiento);
 		}catch (CeibaException e) {
 			//assert
-			assertEquals(EstacionamientoDAOImpl.VEHICULO_YA_ESTA_ESTACIONADO, e.getMessage());
+			assertEquals(EstacionamientoServiceImpl.VEHICULO_YA_ESTA_ESTACIONADO, e.getMessage());
 		}
 	}
 	

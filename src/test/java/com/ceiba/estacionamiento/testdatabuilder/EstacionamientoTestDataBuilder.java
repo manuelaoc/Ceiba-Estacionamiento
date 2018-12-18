@@ -6,14 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.ceiba.estacionamiento.model.Estacionamiento;
-import com.ceiba.estacionamiento.model.TipoVehiculo;
 import com.ceiba.estacionamiento.model.Vehiculo;
 
 public class EstacionamientoTestDataBuilder {
 	static DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
-	private static final TipoVehiculo TIPO_VEHICULO = new TipoVehiculo(2, "Moto");
-	private static final Vehiculo VEHICULO = new Vehiculo(100, "APK79C", 125, TIPO_VEHICULO);
+	private static final Vehiculo VEHICULO = new Vehiculo(100, "APK79C", 125, 2);
 	private static final Date FECHA_INGRESO = new Date();
 	private static final Date FECHA_SALIDA = new Date();
 	private static final double PRECIO = 4000;

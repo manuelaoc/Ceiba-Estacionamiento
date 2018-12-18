@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ceiba.estacionamiento.dao.EstacionamientoDAO;
+import com.ceiba.estacionamiento.dto.EstacionamientoDTO;
 import com.ceiba.estacionamiento.model.Estacionamiento;
+import com.ceiba.estacionamiento.service.EstacionamientoService;
 
 @RestController
 @RequestMapping("/api")
@@ -25,7 +26,7 @@ public class EstacionamientoController {
 	public static final String ESTACIONAMIENTO = "/estacionamiento";
 	
 	@Autowired
-	private EstacionamientoDAO estacionamientoDAO;
+	private EstacionamientoService estacionamientoDAO;
 	
 	@GetMapping(ESTACIONAMIENTO)
 	public ResponseEntity<List<Estacionamiento>> obtenerEstacionamientos(){
@@ -38,12 +39,12 @@ public class EstacionamientoController {
 	}
 	
 	@PostMapping(ESTACIONAMIENTO)
-	public void registrarIngresoEstacionamiento(@Valid @RequestBody Estacionamiento estacionamiento) {
-		estacionamientoDAO.registrarIngresoEstacionamiento(estacionamiento);
+	public void registrarIngresoEstacionamiento(@Valid @RequestBody EstacionamientoDTO estacionamientoDTO) {
+		estacionamientoDAO.registrarIngresoEstacionamiento(estacionamientoDTO);
 	}
 	
 	@PutMapping(ESTACIONAMIENTO)
-	public void registrarSalidaEstacionamiento(@Valid @RequestBody Estacionamiento estacionamiento) {
-		estacionamientoDAO.registrarSalidaEstacionamiento(estacionamiento); 
+	public void registrarSalidaEstacionamiento(@Valid @RequestBody EstacionamientoDTO estacionamientoDTO) {
+		estacionamientoDAO.registrarSalidaEstacionamiento(estacionamientoDTO); 
 	}
 }

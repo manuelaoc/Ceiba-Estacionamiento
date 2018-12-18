@@ -1,16 +1,15 @@
 package com.ceiba.estacionamiento.testdatabuilder;
 
-import com.ceiba.estacionamiento.model.TipoVehiculo;
 import com.ceiba.estacionamiento.model.Vehiculo;
 
 public class VehiculoTestDataBuilder {
 	private static final String PLACA = "APK79C";
 	private static final Integer CILINDRAJE = 125;
-	private static final TipoVehiculo TIPO_VEHICULO = new TipoVehiculo(2, "Moto");
+	private static final Integer TIPO_VEHICULO = 2;
 	
 	private String placa;
 	private Integer ciclidraje;
-	private TipoVehiculo tipoVehiculo;
+	private Integer tipoVehiculo;
 	
 	public VehiculoTestDataBuilder() {
 		this.placa = PLACA;
@@ -28,7 +27,7 @@ public class VehiculoTestDataBuilder {
 		return this;
 	}
 	
-	public VehiculoTestDataBuilder conTipoVehiculo(TipoVehiculo tipoVehiculo) {
+	public VehiculoTestDataBuilder conTipoVehiculo(Integer tipoVehiculo) {
 		this.tipoVehiculo = tipoVehiculo;
 		return this;
 	}

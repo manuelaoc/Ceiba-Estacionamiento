@@ -13,7 +13,7 @@ public interface EstacionamientoRepository extends JpaRepository<Estacionamiento
 	@Query("SELECT est FROM Estacionamiento est WHERE est.vehiculo.placa = (:placa)")
 	Estacionamiento buscarEstacionamientoByPlaca(@Param("placa") String placa);
 	
-	@Query("SELECT COUNT(est) FROM Estacionamiento est WHERE est.fechaSalida IS NULL AND est.precio IS NULL AND est.vehiculo.tipoVehiculo.id = (:idTipoVehiculo)")
+	@Query("SELECT COUNT(est) FROM Estacionamiento est WHERE est.fechaSalida IS NULL AND est.precio IS NULL AND est.vehiculo.tipoVehiculo = (:idTipoVehiculo)")
 	Integer contarVehiculosByTipo(@Param("idTipoVehiculo") Integer idTipoVehiculo);
 	
 	@Query("SELECT est FROM Estacionamiento est WHERE est.vehiculo.placa = (:placa) AND est.fechaSalida IS NULL AND est.precio IS NULL")

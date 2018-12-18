@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ceiba.estacionamiento.dao.VehiculoDAO;
 import com.ceiba.estacionamiento.model.Vehiculo;
+import com.ceiba.estacionamiento.service.VehiculoService;
 
 @RestController
 @RequestMapping("/api")
@@ -22,7 +22,7 @@ public class VehiculoController {
 	public static final String VEHICULO = "/vehiculo";
 	
 	@Autowired
-	private VehiculoDAO vehiculoDAO;
+	private VehiculoService vehiculoDAO;
 	
 	@GetMapping(VEHICULO)
 	public ResponseEntity<List<Vehiculo>> obtenerVehiculos(){
