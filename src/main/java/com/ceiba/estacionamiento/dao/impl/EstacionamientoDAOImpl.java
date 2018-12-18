@@ -137,7 +137,7 @@ public class EstacionamientoDAOImpl implements EstacionamientoDAO{
 			}
 			return calcularPrecio(estacionamiento, horasDiferencia, diasDiferencia);
 		} catch (CeibaException e) {
-			throw new CeibaException("Ocurrio un error calculando el precio total a pagar en el estacionamiento");
+			throw new CeibaException("Ocurrio un error calculando el precio total a pagar en el estacionamiento " + e);
 		}
 	}
 
@@ -152,6 +152,6 @@ public class EstacionamientoDAOImpl implements EstacionamientoDAO{
 				precio += VALOR_CILINDRAJE_MAYOR_500;
 			}
 		}
-		return precio;
+		return precio; 
 	}
 }

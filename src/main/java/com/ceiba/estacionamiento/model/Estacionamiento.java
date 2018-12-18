@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "estacionamiento")
@@ -23,11 +22,9 @@ public class Estacionamiento implements Serializable {
 	@Column(name = "id")
 	private Integer id;
 	
-	@NotNull
 	@ManyToOne(optional = false)
 	private Vehiculo vehiculo;
 	
-	@NotNull
 	@Column(name = "fecha_ingreso")
 	private Date fechaIngreso;
 	
@@ -37,6 +34,10 @@ public class Estacionamiento implements Serializable {
 	@Column(name = "precio")
 	private Double precio;
 
+	public Estacionamiento() {
+		super();
+	}
+	
 	public Estacionamiento(Integer id, Vehiculo vehiculo, Date fechaIngreso, Date fechaSalida, Double precio) {
 		super();
 		this.id = id;

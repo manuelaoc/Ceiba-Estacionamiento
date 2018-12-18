@@ -44,6 +44,6 @@ public class EstacionamientoController {
 	
 	@PutMapping(ESTACIONAMIENTO)
 	public void registrarSalidaEstacionamiento(@Valid @RequestBody Estacionamiento estacionamiento) {
-		estacionamientoDAO.registrarSalidaEstacionamiento(estacionamiento);
+		estacionamientoDAO.registrarSalidaEstacionamiento(estacionamiento); 
 	}
 }

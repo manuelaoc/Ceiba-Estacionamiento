@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "vehiculo")
@@ -22,17 +21,18 @@ public class Vehiculo implements Serializable {
 	@Column(name = "id")
 	private Integer id;
 	
-	@NotNull
 	@Column(name = "placa")
 	private String placa;
 	
-	@NotNull
 	@Column(name = "cilindraje")
 	private Integer cilindraje;
 	
-	@NotNull
 	@ManyToOne(optional = false)
 	private TipoVehiculo tipoVehiculo;
+	
+	public Vehiculo() {
+		super();
+	}
 	
 	public Vehiculo(Integer id, String placa, Integer cilindraje, TipoVehiculo tipoVehiculo) {
 		super();

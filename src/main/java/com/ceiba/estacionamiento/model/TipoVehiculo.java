@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tipo_vehiculo")
@@ -21,9 +20,12 @@ public class TipoVehiculo implements Serializable {
 	@Column(name = "id")
 	private Integer id;
 	
-	@NotNull
 	@Column(name = "descripcion")
 	private String descripcion;
+	
+	public TipoVehiculo() {
+		super();
+	}
 	
 	public TipoVehiculo(Integer id, String descripcion) {
 		super();
