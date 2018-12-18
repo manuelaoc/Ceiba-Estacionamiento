@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "vehiculo")
 public class Vehiculo implements Serializable {
 	
-	private static final long serialVersionUID = -3373131848146066197L;
+	private static final long serialVersionUID = 4129258796057367738L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

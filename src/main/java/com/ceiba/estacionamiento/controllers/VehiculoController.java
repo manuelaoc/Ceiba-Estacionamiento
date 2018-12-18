@@ -37,7 +37,7 @@ public class VehiculoController {
 	}
 
 	@PostMapping(VEHICULO)
-	public ResponseEntity<Vehiculo> crearVehiculo(@Valid @RequestBody Vehiculo vehiculo) {
+	public ResponseEntity<Vehiculo> crearVehiculo(@RequestBody Vehiculo vehiculo) {
 		return new ResponseEntity<>(vehiculoDAO.crearVehiculo(vehiculo), HttpStatus.OK);
 	}
 }
