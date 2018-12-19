@@ -22,20 +22,20 @@ public class VehiculoController {
 	public static final String VEHICULO = "/vehiculo";
 	
 	@Autowired
-	private VehiculoService vehiculoDAO;
+	private VehiculoService vehiculoService;
 	
 	@GetMapping(VEHICULO)
 	public ResponseEntity<List<Vehiculo>> obtenerVehiculos(){
-		return new ResponseEntity<>(vehiculoDAO.obtenerVehiculos(), HttpStatus.OK);
+		return new ResponseEntity<>(vehiculoService.obtenerVehiculos(), HttpStatus.OK);
 	}
 	
 	@GetMapping(VEHICULO+"/{placa}")
 	public ResponseEntity<Vehiculo> obtenerVehiculoByPlaca(@PathVariable String placa){
-		return new ResponseEntity<>(vehiculoDAO.obtenerVehiculoByPlaca(placa), HttpStatus.OK);
+		return new ResponseEntity<>(vehiculoService.obtenerVehiculoByPlaca(placa), HttpStatus.OK);
 	}
 
 	@PostMapping(VEHICULO)
 	public ResponseEntity<Vehiculo> crearVehiculo(@RequestBody Vehiculo vehiculo) {
-		return new ResponseEntity<>(vehiculoDAO.crearVehiculo(vehiculo), HttpStatus.OK);
+		return new ResponseEntity<>(vehiculoService.crearVehiculo(vehiculo), HttpStatus.OK);
 	}
 }

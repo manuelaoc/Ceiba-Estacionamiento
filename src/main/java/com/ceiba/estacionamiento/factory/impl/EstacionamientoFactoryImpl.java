@@ -1,5 +1,8 @@
 package com.ceiba.estacionamiento.factory.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.ceiba.estacionamiento.dto.EstacionamientoDTO;
@@ -34,13 +37,21 @@ public class EstacionamientoFactoryImpl implements EstacionamientoFactory{
 
 	@Override
 	public EstacionamientoDTO convertirModelo(Estacionamiento estacionamiento) {
-		EstacionamientoDTO estacionamientoDTO = new EstacionamientoDTO();
-		estacionamientoDTO.setId(estacionamiento.getId());
-		estacionamientoDTO.setVehiculo(estacionamiento.getVehiculo());
-		estacionamientoDTO.setFechaIngreso(estacionamiento.getFechaIngreso());
-		estacionamientoDTO.setFechaSalida(estacionamiento.getFechaSalida());
-		estacionamientoDTO.setPrecio(estacionamiento.getPrecio());
-		return estacionamientoDTO;
+		if (estacionamiento != null) {
+			EstacionamientoDTO estacionamientoDTO = new EstacionamientoDTO();
+			estacionamientoDTO.setId(estacionamiento.getId());
+			estacionamientoDTO.setVehiculo(estacionamiento.getVehiculo());
+			estacionamientoDTO.setFechaIngreso(estacionamiento.getFechaIngreso());
+			estacionamientoDTO.setFechaSalida(estacionamiento.getFechaSalida());
+			estacionamientoDTO.setPrecio(estacionamiento.getPrecio());
+			return estacionamientoDTO;
+		}
+		return null;
+	}
+
+	@Override
+	public List<EstacionamientoDTO> convertirListaModelo(List<Estacionamiento> estacionamientos) {
+		return estacionamientos.stream().map(e -> convertirModelo(e)).collect(Collectors.toList());
 	}
 
 }

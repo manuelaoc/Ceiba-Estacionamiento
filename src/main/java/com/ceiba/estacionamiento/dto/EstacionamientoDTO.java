@@ -1,11 +1,14 @@
 package com.ceiba.estacionamiento.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.ceiba.estacionamiento.model.Vehiculo;
 
-public class EstacionamientoDTO {
+public class EstacionamientoDTO implements Serializable{
 
+	private static final long serialVersionUID = -5518710865853802303L;
+	
 	private Integer id;
 	private Vehiculo vehiculo;
 	private Date fechaIngreso;

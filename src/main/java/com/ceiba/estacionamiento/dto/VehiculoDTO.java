@@ -1,7 +1,11 @@
 package com.ceiba.estacionamiento.dto;
 
-public class VehiculoDTO {
+import java.io.Serializable;
 
+public class VehiculoDTO implements Serializable{
+
+	private static final long serialVersionUID = -6401799957642910361L;
+	
 	private Integer id;
 	private String placa;
 	private Integer cilindraje;

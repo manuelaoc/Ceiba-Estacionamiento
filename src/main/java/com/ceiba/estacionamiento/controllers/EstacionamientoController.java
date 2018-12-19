@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ceiba.estacionamiento.dto.EstacionamientoDTO;
-import com.ceiba.estacionamiento.model.Estacionamiento;
 import com.ceiba.estacionamiento.service.EstacionamientoService;
 
 @RestController
@@ -26,25 +25,25 @@ public class EstacionamientoController {
 	public static final String ESTACIONAMIENTO = "/estacionamiento";
 	
 	@Autowired
-	private EstacionamientoService estacionamientoDAO;
+	private EstacionamientoService estacionamientoService;
 	
 	@GetMapping(ESTACIONAMIENTO)
-	public ResponseEntity<List<Estacionamiento>> obtenerEstacionamientos(){
-		return new ResponseEntity<>(estacionamientoDAO.obtenerEstacionamientos(), HttpStatus.OK);
+	public ResponseEntity<List<EstacionamientoDTO>> obtenerEstacionamientos(){
+		return new ResponseEntity<>(estacionamientoService.obtenerEstacionamientos(), HttpStatus.OK);
 	}
 	
 	@GetMapping(ESTACIONAMIENTO+"/{placa}")
-	public ResponseEntity<Estacionamiento> obtenerEstacionamientoByPlaca(@PathVariable String placa){
-		return new ResponseEntity<>(estacionamientoDAO.obtenerEstacionamientoByPlaca(placa), HttpStatus.OK);
+	public ResponseEntity<EstacionamientoDTO> obtenerEstacionamientoByPlaca(@PathVariable String placa){
+		return new ResponseEntity<>(estacionamientoService.obtenerEstacionamientoByPlaca(placa), HttpStatus.OK);
 	}
 	
 	@PostMapping(ESTACIONAMIENTO)
 	public void registrarIngresoEstacionamiento(@Valid @RequestBody EstacionamientoDTO estacionamientoDTO) {
-		estacionamientoDAO.registrarIngresoEstacionamiento(estacionamientoDTO);
+		estacionamientoService.registrarIngresoEstacionamiento(estacionamientoDTO);
 	}
 	
 	@PutMapping(ESTACIONAMIENTO)
 	public void registrarSalidaEstacionamiento(@Valid @RequestBody EstacionamientoDTO estacionamientoDTO) {
-		estacionamientoDAO.registrarSalidaEstacionamiento(estacionamientoDTO); 
+		estacionamientoService.registrarSalidaEstacionamiento(estacionamientoDTO); 
 	}
 }

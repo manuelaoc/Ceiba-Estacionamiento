@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.ceiba.estacionamiento.dto.EstacionamientoDTO;
 import com.ceiba.estacionamiento.model.Estacionamiento;
 import com.ceiba.estacionamiento.model.Vehiculo;
 
@@ -56,7 +57,12 @@ public class EstacionamientoTestDataBuilder {
 		return this;
 	}
 	
-	public Estacionamiento build() {
-		return new Estacionamiento(null, this.vehiculo, this.fechaIngreso, this.fechaSalida, this.precio);
+	public EstacionamientoDTO build() {
+		EstacionamientoDTO estacionamientoDTO = new EstacionamientoDTO();
+		estacionamientoDTO.setVehiculo(this.vehiculo);
+		estacionamientoDTO.setFechaIngreso(this.fechaIngreso);
+		estacionamientoDTO.setFechaSalida(this.fechaSalida);
+		estacionamientoDTO.setPrecio(this.precio);
+		return estacionamientoDTO;
 	}
 }
