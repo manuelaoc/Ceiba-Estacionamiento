@@ -57,10 +57,12 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 	}
 
 	@Override
-	public void registrarIngresoEstacionamiento(EstacionamientoDTO estacionamientoDTO) {
-		estacionamientoRepository.save(validarSiEsPosibleEstacionar(estacionamientoDTO));
+	public EstacionamientoDTO registrarIngresoEstacionamiento(EstacionamientoDTO estacionamientoDTO) {
+		Estacionamiento estacionamiento = estacionamientoRepository.save(validarSiEsPosibleEstacionar(estacionamientoDTO));
+		return estacionamientoFactory.convertirModeloaDTO(estacionamiento);
 	}
 	
+	@Override
 	public Estacionamiento validarSiEsPosibleEstacionar(EstacionamientoDTO estacionamientoDTO) {
 		Integer idTipoVehiculo = estacionamientoDTO.getVehiculo().getTipoVehiculo();
 		if (!validarTipoVehiculo(idTipoVehiculo)) {
@@ -84,14 +86,17 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 		return estacionamiento;
 	}
 	
+	@Override
 	public Boolean validarExistenciaVehiculo(String placa) {
 		return vehiculoRepository.findByPlaca(placa) != null;
 	}
 	
+	@Override
 	public Boolean validarTipoVehiculo(Integer idTipoVehiculo) {
 		return TipoVehiculoEnum.obtenerTipoVehiculos().stream().anyMatch(t -> t.getId().equals(idTipoVehiculo));
 	}
 	
+	@Override
 	public Boolean validarIngresoPorPlaca(String placa, Date fecha) {
 		if (placa.startsWith(LETRA_INCIAL)) {
 			Calendar date = Calendar.getInstance();
@@ -101,24 +106,28 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 		}
 		return true;
 	}
-	
+
+	@Override
 	public Boolean validarEstaEstacionadoVehiculo(String placa) {
 		return obtenerVehiculoEstacionado(placa) != null;
 	}
 	
+	@Override
 	public EstacionamientoDTO obtenerVehiculoEstacionado(String placa) {
 		Estacionamiento estacionamiento = estacionamientoRepository.obtenerVehiculoEstacionado(placa); 
 		return estacionamientoFactory.convertirModeloaDTO(estacionamiento);
 	}
 
 	@Override
-	public void registrarSalidaEstacionamiento(EstacionamientoDTO estacionamientoDTO) {
+	public EstacionamientoDTO registrarSalidaEstacionamiento(EstacionamientoDTO estacionamientoDTO) {
 		Date fechaSalida = new Date();
 		estacionamientoDTO.setPrecio(generarReciboSalida(estacionamientoDTO, fechaSalida));
 		estacionamientoDTO.setFechaSalida(fechaSalida);
-		estacionamientoRepository.save(estacionamientoFactory.convertirDTOaModelo(estacionamientoDTO));
+		Estacionamiento estacionamiento = estacionamientoRepository.save(estacionamientoFactory.convertirDTOaModelo(estacionamientoDTO));
+		return estacionamientoFactory.convertirModeloaDTO(estacionamiento);
 	}
 	
+	@Override
 	public Double generarReciboSalida(EstacionamientoDTO estacionamientoDTO, Date fechaSalida) {
 		Estacionamiento estacionamiento = estacionamientoFactory.convertirDTOaModelo(estacionamientoDTO);
 		try {
@@ -133,13 +142,12 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 	
 	public TiempoEstacionamiento calcularTiempoEstacionamiento(int horasDiferencia) {
 		int diasDiferencia = 0;
-		int horasRestantes = 0;
 		if (horasDiferencia >= MIN_HORAS_COBRO_DIA && horasDiferencia <= MAX_HORAS_COBRO_DIA) {
 			diasDiferencia = 1;
 			horasDiferencia = 0;
 		} else if (horasDiferencia > MAX_HORAS_COBRO_DIA) {
 			diasDiferencia = (horasDiferencia / MAX_HORAS_COBRO_DIA);
-			horasRestantes = (horasDiferencia % MAX_HORAS_COBRO_DIA);
+			int horasRestantes = (horasDiferencia % MAX_HORAS_COBRO_DIA);
 			if (horasRestantes < MIN_HORAS_COBRO_DIA) {
 				horasDiferencia = horasRestantes;
 			} else {
@@ -151,5 +159,10 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 		}
 		
 		return new TiempoEstacionamiento(horasDiferencia, diasDiferencia);
+	}
+
+	@Override
+	public void eliminarEstacionamiento(EstacionamientoDTO estacionamientoDTO) {
+		estacionamientoRepository.delete(estacionamientoFactory.convertirDTOaModelo(estacionamientoDTO));
 	}
 }

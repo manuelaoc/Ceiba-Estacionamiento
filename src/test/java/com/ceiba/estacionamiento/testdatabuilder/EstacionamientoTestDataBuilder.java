@@ -13,13 +13,13 @@ public class EstacionamientoTestDataBuilder {
 	
 	private static final Vehiculo VEHICULO = new Vehiculo(100, "APK79C", 125, 2);
 	private static final Date FECHA_INGRESO = new Date();
-	private static final Date FECHA_SALIDA = new Date();
-	private static final double PRECIO = 4000;
+	private static final Date FECHA_SALIDA = null;
+	private static final Double PRECIO = null;
 	
 	private Vehiculo vehiculo;
 	private Date fechaIngreso;
 	private Date fechaSalida;
-	private double precio;
+	private Double precio;
 	
 	public EstacionamientoTestDataBuilder() {
 		this.vehiculo = VEHICULO;
@@ -51,7 +51,7 @@ public class EstacionamientoTestDataBuilder {
 		return this;
 	}
 	
-	public EstacionamientoTestDataBuilder conPrecio(double precio) {
+	public EstacionamientoTestDataBuilder conPrecio(Double precio) {
 		this.precio = precio;
 		return this;
 	}

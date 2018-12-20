@@ -29,4 +29,9 @@ public class VehiculoServiceImpl implements VehiculoService{
 	public Vehiculo crearVehiculo(Vehiculo vehiculo) {
 		return vehiculoRepository.save(vehiculo);
 	}
+
+	@Override
+	public void eliminarVehiculo(Vehiculo vehiculo) {
+		vehiculoRepository.delete(vehiculo);
+	}
 }

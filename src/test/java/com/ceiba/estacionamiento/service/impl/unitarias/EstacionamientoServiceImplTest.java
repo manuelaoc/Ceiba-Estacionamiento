@@ -286,7 +286,7 @@ public class EstacionamientoServiceImplTest {
 	}
 
 	@Test
-	public void validarGeneracionReciboSalidaMotoTiempoEstacionadoMenorHoraTest() throws ParseException {
+	public void validarGeneracionReciboSalidaMotoTiempoEstacionadoMinutosTest() throws ParseException {
 		// arrange
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_VALIDA_MOTO).build();
 		EstacionamientoDTO estacionamientoDTO = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).conFechaIngreso(FECHA_DIA_HABIL).build();

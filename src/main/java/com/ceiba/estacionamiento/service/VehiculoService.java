@@ -8,4 +8,5 @@ public interface VehiculoService {
 	List<Vehiculo> obtenerVehiculos();
 	Vehiculo obtenerVehiculoByPlaca(String placa);
 	Vehiculo crearVehiculo(Vehiculo vehiculo);
+	void eliminarVehiculo(Vehiculo vehiculo);
 }
