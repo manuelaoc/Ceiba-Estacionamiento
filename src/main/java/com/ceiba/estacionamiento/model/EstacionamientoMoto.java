@@ -20,7 +20,15 @@ public class EstacionamientoMoto extends Estacionamiento{
 	
 	@Override
 	public Double calcularPrecio(int horasDiferencia, int diasDiferencia, Integer cilindraje) {
-		Double precio = diasDiferencia > 0 ? (double) (diasDiferencia * VALOR_DIA_MOTO) : (double) (horasDiferencia * VALOR_HORA_MOTO);
+		Double precio;
+		if (diasDiferencia > 0) {
+			precio = (double) (diasDiferencia * VALOR_DIA_MOTO);
+			if (horasDiferencia > 0) {
+				precio += (double) (horasDiferencia * VALOR_HORA_MOTO);
+			}
+		} else {
+			precio = (double) (horasDiferencia * VALOR_HORA_MOTO);
+		}
 		if (cilindraje > CILINDRAJE_COBRO_ADICIONAL) {
 			precio += VALOR_CILINDRAJE_MAYOR_500;
 		}

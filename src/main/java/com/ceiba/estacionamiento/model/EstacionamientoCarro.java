@@ -18,6 +18,15 @@ public class EstacionamientoCarro extends Estacionamiento{
 	
 	@Override
 	public Double calcularPrecio(int horasDiferencia, int diasDiferencia, Integer cilindraje) {
-		return diasDiferencia > 0 ? (double) (diasDiferencia * VALOR_DIA_CARRO) : (double) (horasDiferencia * VALOR_HORA_CARRO);
+		Double precio;
+		if (diasDiferencia > 0) {
+			precio = (double) (diasDiferencia * VALOR_DIA_CARRO);
+			if (horasDiferencia > 0) {
+				precio += (double) (horasDiferencia * VALOR_HORA_CARRO);
+			}
+		} else {
+			precio = (double) (horasDiferencia * VALOR_HORA_CARRO);
+		}
+		return precio;
 	}
 }

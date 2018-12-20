@@ -1,4 +1,4 @@
-package com.ceiba.estacionamiento.service.impl;
+package com.ceiba.estacionamiento.service.impl.unitarias;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -25,16 +25,21 @@ import com.ceiba.estacionamiento.model.Vehiculo;
 import com.ceiba.estacionamiento.model.enumeration.TipoVehiculoEnum;
 import com.ceiba.estacionamiento.repository.EstacionamientoRepository;
 import com.ceiba.estacionamiento.repository.VehiculoRepository;
+import com.ceiba.estacionamiento.service.impl.EstacionamientoServiceImpl;
 import com.ceiba.estacionamiento.testdatabuilder.EstacionamientoTestDataBuilder;
 import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
 
 public class EstacionamientoServiceImplTest {
 
-	private static final String PLACA_VALIDA = "BPK79C";
-	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-	private String fechaDiaNoHabil = "17/12/2018";
-	private String fechaDiaHabil = "18/12/2018";
-	private Integer tipoVehiculoNoPermitido = 3;
+	private static final Integer TIPO_VEHICULO_NO_PERMITIDO = 3;
+	private static final String PLACA_VALIDA_MOTO = "BPK79C";
+	private static final String PLACA_VALIDA_CARRO = "WBE068";
+	private static final String FECHA_DIA_HABIL = "18/12/2018 09:00:00";
+	private static final String FECHA_DIA_NO_HABIL = "17/12/2018 13:00:00";
+	private static final String FECHA_SALIDA_CARRO = "19/12/2018 12:00:00";
+	private static final String FECHA_SALIDA_MOTO = "18/12/2018 19:00:00";
+	
+	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 	@Mock
 	EstacionamientoRepository estacionamientoRepository;
@@ -78,7 +83,7 @@ public class EstacionamientoServiceImplTest {
 	@Test
 	public void ingresoVehiculoNoPermitidoTest() {
 		// act
-		Boolean existeTipoVehiculo = estacionamientoServiceImpl.validarTipoVehiculo(tipoVehiculoNoPermitido);
+		Boolean existeTipoVehiculo = estacionamientoServiceImpl.validarTipoVehiculo(TIPO_VEHICULO_NO_PERMITIDO);
 	
 		//assert
 		assertFalse(existeTipoVehiculo);
@@ -88,7 +93,7 @@ public class EstacionamientoServiceImplTest {
 	public void permitirIngresoVehiculoConPlacaIniciaATest() throws ParseException {
 		// arrange
 		EstacionamientoDTO estacionamiento = new EstacionamientoTestDataBuilder().build();
-		Date fecha = format.parse(fechaDiaHabil);
+		Date fecha = format.parse(FECHA_DIA_HABIL);
 		
 		// act
 		Boolean permiteIngreso = estacionamientoServiceImpl.validarIngresoPorPlaca(estacionamiento.getVehiculo().getPlaca(), fecha);
@@ -101,7 +106,7 @@ public class EstacionamientoServiceImplTest {
 	public void noPermitirIngresoVehiculoConPlacaIniciaATest() throws ParseException {
 		// arrange
 		EstacionamientoDTO estacionamiento = new EstacionamientoTestDataBuilder().build();
-		Date fecha = format.parse(fechaDiaNoHabil);
+		Date fecha = format.parse(FECHA_DIA_NO_HABIL);
 		
 		// act
 		Boolean permiteIngreso = estacionamientoServiceImpl.validarIngresoPorPlaca(estacionamiento.getVehiculo().getPlaca(), fecha);
@@ -139,7 +144,7 @@ public class EstacionamientoServiceImplTest {
 	@Test
 	public void permitirIngresoVehiculoConPlacaIniciaDiferenteATest() throws ParseException {
 		// act
-		Boolean permiteIngreso = estacionamientoServiceImpl.validarIngresoPorPlaca(PLACA_VALIDA, new Date());
+		Boolean permiteIngreso = estacionamientoServiceImpl.validarIngresoPorPlaca(PLACA_VALIDA_MOTO, new Date());
 		
 		//assert
 		assertTrue(permiteIngreso);
@@ -148,7 +153,7 @@ public class EstacionamientoServiceImplTest {
 	@Test
 	public void validarSiEsPosibleEstacionarTipoVehiculoNoExistenteTest() {
 		// arrange
-		Vehiculo vehiculo = new VehiculoTestDataBuilder().conTipoVehiculo(tipoVehiculoNoPermitido).build();
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conTipoVehiculo(TIPO_VEHICULO_NO_PERMITIDO).build();
 		EstacionamientoDTO estacionamiento = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).build();
 		when(vehiculoRepository.findByPlaca(vehiculo.getPlaca())).thenReturn(vehiculo);
 		
@@ -182,7 +187,7 @@ public class EstacionamientoServiceImplTest {
 	public void validarSiEsPosibleEstacionarConPlacaATest() {
 		// arrange
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
-		EstacionamientoDTO estacionamiento = new EstacionamientoTestDataBuilder().conFechaIngreso(fechaDiaNoHabil).build();
+		EstacionamientoDTO estacionamiento = new EstacionamientoTestDataBuilder().conFechaIngreso(FECHA_DIA_NO_HABIL).build();
 		when(vehiculoRepository.findByPlaca(vehiculo.getPlaca())).thenReturn(vehiculo);
 		
 		// act
@@ -198,7 +203,7 @@ public class EstacionamientoServiceImplTest {
 	public void validarSiEsPosibleEstacionarVehiculoYaIngresadoTest() {
 		// arrange
 		Vehiculo vehiculo = new VehiculoTestDataBuilder().build();
-		EstacionamientoDTO estacionamiento = new EstacionamientoTestDataBuilder().conFechaIngreso(fechaDiaHabil).build();
+		EstacionamientoDTO estacionamiento = new EstacionamientoTestDataBuilder().conFechaIngreso(FECHA_DIA_HABIL).build();
 		when(estacionamientoServiceImpl.obtenerVehiculoEstacionado(estacionamiento.getVehiculo().getPlaca())).thenReturn(estacionamiento);
 		when(vehiculoRepository.findByPlaca(vehiculo.getPlaca())).thenReturn(vehiculo);
 		
@@ -214,9 +219,9 @@ public class EstacionamientoServiceImplTest {
 	@Test
 	public void validarSiEsPosibleEstacionarVehiculoNoExistenteTest() {
 		// arrange
-		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_VALIDA).build();
-		EstacionamientoDTO estacionamiento = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).conFechaIngreso(fechaDiaHabil).build();
-		when(estacionamientoServiceImpl.validarExistenciaVehiculo(PLACA_VALIDA)).thenReturn(null);
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_VALIDA_MOTO).build();
+		EstacionamientoDTO estacionamiento = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).conFechaIngreso(FECHA_DIA_HABIL).build();
+		when(estacionamientoServiceImpl.validarExistenciaVehiculo(PLACA_VALIDA_MOTO)).thenReturn(null);
 		
 		// act
 		try {
@@ -230,14 +235,80 @@ public class EstacionamientoServiceImplTest {
 	@Test
 	public void validarSiEsPosibleEstacionarTest() {
 		// arrange
-		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_VALIDA).build();
-		EstacionamientoDTO estacionamientoDTO = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).conFechaIngreso(fechaDiaHabil).build();
-		when(vehiculoRepository.findByPlaca(PLACA_VALIDA)).thenReturn(vehiculo);
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_VALIDA_MOTO).build();
+		EstacionamientoDTO estacionamientoDTO = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).conFechaIngreso(FECHA_DIA_HABIL).build();
+		when(vehiculoRepository.findByPlaca(PLACA_VALIDA_MOTO)).thenReturn(vehiculo);
 		
 		// act
 		Estacionamiento estacionamiento = estacionamientoServiceImpl.validarSiEsPosibleEstacionar(estacionamientoDTO);
 		
-		//assert
+		// assert
 		assertEquals(estacionamientoDTO.getVehiculo(), estacionamiento.getVehiculo());
 	}
+	
+	@Test
+	public void validarGeneracionReciboSalidaCarroTest() throws ParseException {
+		// arrange
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_VALIDA_CARRO).conTipoVehiculo(TipoVehiculoEnum.CARRO.getId()).build();
+		EstacionamientoDTO estacionamientoDTO = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).conFechaIngreso(FECHA_DIA_HABIL).build();
+		
+		// act
+		Double precio = estacionamientoServiceImpl.generarReciboSalida(estacionamientoDTO, format.parse(FECHA_SALIDA_CARRO));
+		
+		// assert
+		assertEquals(11000, precio, 0);
+	}
+	
+	@Test
+	public void validarGeneracionReciboSalidaMotoCilindrajeMenos500Test() throws ParseException {
+		// arrange
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_VALIDA_MOTO).build();
+		EstacionamientoDTO estacionamientoDTO = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).conFechaIngreso(FECHA_DIA_HABIL).build();
+		
+		// act
+		Double precio = estacionamientoServiceImpl.generarReciboSalida(estacionamientoDTO, format.parse(FECHA_SALIDA_MOTO));
+		
+		// assert
+		assertEquals(4000, precio, 0);
+	}
+	
+	@Test
+	public void validarGeneracionReciboSalidaMotoCilindrajeMayor500Test() throws ParseException {
+		// arrange
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_VALIDA_MOTO).conCilindraje(650).build();
+		EstacionamientoDTO estacionamientoDTO = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).conFechaIngreso(FECHA_DIA_HABIL).build();
+		
+		// act
+		Double precio = estacionamientoServiceImpl.generarReciboSalida(estacionamientoDTO, format.parse(FECHA_SALIDA_MOTO));
+		
+		// assert
+		assertEquals(6000, precio, 0);
+	}
+
+	@Test
+	public void validarGeneracionReciboSalidaMotoTiempoEstacionadoMenorHoraTest() throws ParseException {
+		// arrange
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_VALIDA_MOTO).build();
+		EstacionamientoDTO estacionamientoDTO = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).conFechaIngreso(FECHA_DIA_HABIL).build();
+		
+		// act
+		Double precio = estacionamientoServiceImpl.generarReciboSalida(estacionamientoDTO, format.parse("18/12/2018 09:30:00"));
+		
+		// assert
+		assertEquals(500, precio, 0);
+	}
+	
+	@Test
+	public void validarGeneracionReciboSalidaMotoEstacionadaDosDiasTest() throws ParseException {
+		// arrange
+		Vehiculo vehiculo = new VehiculoTestDataBuilder().conPlaca(PLACA_VALIDA_MOTO).build();
+		EstacionamientoDTO estacionamientoDTO = new EstacionamientoTestDataBuilder().conVehiculo(vehiculo).conFechaIngreso(FECHA_DIA_HABIL).build();
+		
+		// act
+		Double precio = estacionamientoServiceImpl.generarReciboSalida(estacionamientoDTO, format.parse("20/12/2018 04:00:00"));
+		
+		// assert
+		assertEquals(8000, precio, 0);
+	}
+	
 }

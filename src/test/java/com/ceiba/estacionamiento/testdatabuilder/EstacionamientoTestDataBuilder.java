@@ -6,11 +6,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.ceiba.estacionamiento.dto.EstacionamientoDTO;
-import com.ceiba.estacionamiento.model.Estacionamiento;
 import com.ceiba.estacionamiento.model.Vehiculo;
 
 public class EstacionamientoTestDataBuilder {
-	static DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	private DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 	private static final Vehiculo VEHICULO = new Vehiculo(100, "APK79C", 125, 2);
 	private static final Date FECHA_INGRESO = new Date();
@@ -36,7 +35,7 @@ public class EstacionamientoTestDataBuilder {
 	
 	public EstacionamientoTestDataBuilder conFechaIngreso(String fechaIngreso) {
 		try {
-			this.fechaIngreso = sdf.parse(fechaIngreso);
+			this.fechaIngreso = format.parse(fechaIngreso);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +44,7 @@ public class EstacionamientoTestDataBuilder {
 	
 	public EstacionamientoTestDataBuilder conFechaSalida(String fechaSalida) {
 		try {
-			this.fechaSalida = sdf.parse(fechaSalida);
+			this.fechaSalida = format.parse(fechaSalida);
 		} catch (ParseException e) {
 			this.fechaSalida = null;
 		}

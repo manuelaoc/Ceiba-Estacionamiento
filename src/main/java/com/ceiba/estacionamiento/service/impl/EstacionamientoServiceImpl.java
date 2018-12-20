@@ -16,6 +16,7 @@ import com.ceiba.estacionamiento.model.enumeration.TipoVehiculoEnum;
 import com.ceiba.estacionamiento.repository.EstacionamientoRepository;
 import com.ceiba.estacionamiento.repository.VehiculoRepository;
 import com.ceiba.estacionamiento.service.EstacionamientoService;
+import com.ceiba.estacionamiento.util.TiempoEstacionamiento;
 
 @Service
 public class EstacionamientoServiceImpl implements EstacionamientoService{
@@ -27,6 +28,7 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 	public static final String VEHICULO_YA_ESTA_ESTACIONADO = "El vehiculo ya se encuentra dentro del estacionamiento";
 	public static final String VEHICULO_NO_EXISTE = "El vehiculo no existe";
 	public static final Integer MIN_HORAS_COBRO_DIA = 9;
+	public static final Integer MAX_HORAS_COBRO_DIA = 24;
 	
 	@Autowired
 	private EstacionamientoRepository estacionamientoRepository;
@@ -46,7 +48,7 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 	@Override
 	public EstacionamientoDTO obtenerEstacionamientoByPlaca(String placa) {
 		Estacionamiento estacionamiento = estacionamientoRepository.buscarEstacionamientoByPlaca(placa); 
-		return estacionamientoFactory.convertirModelo(estacionamiento);
+		return estacionamientoFactory.convertirModeloaDTO(estacionamiento);
 	}
 
 	@Override
@@ -59,24 +61,12 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 		estacionamientoRepository.save(validarSiEsPosibleEstacionar(estacionamientoDTO));
 	}
 	
-	@Override
-	public void registrarSalidaEstacionamiento(EstacionamientoDTO estacionamientoDTO) {
-		Estacionamiento estacionamiento = estacionamientoFactory.convertirDTO(estacionamientoDTO);
-		if (!validarTipoVehiculo(estacionamiento.getVehiculo().getTipoVehiculo())) {
-			throw new CeibaException(TIPO_VEHICULO_NO_PERMITIDO);
-		}
-		Date fechaSalida = new Date();
-		estacionamiento.setPrecio(generarReciboSalida(estacionamiento, fechaSalida));
-		estacionamiento.setFechaSalida(fechaSalida);
-		estacionamientoRepository.save(estacionamiento);
-	}
-	
 	public Estacionamiento validarSiEsPosibleEstacionar(EstacionamientoDTO estacionamientoDTO) {
 		Integer idTipoVehiculo = estacionamientoDTO.getVehiculo().getTipoVehiculo();
 		if (!validarTipoVehiculo(idTipoVehiculo)) {
 			throw new CeibaException(TIPO_VEHICULO_NO_PERMITIDO);
 		}
-		Estacionamiento estacionamiento = estacionamientoFactory.convertirDTO(estacionamientoDTO);
+		Estacionamiento estacionamiento = estacionamientoFactory.convertirDTOaModelo(estacionamientoDTO);
 		String placa = estacionamiento.getVehiculo().getPlaca();
 		Integer cantidadVehiculos = contarVehiculosByTipo(idTipoVehiculo);
 		if (!validarExistenciaVehiculo(placa)) {
@@ -118,22 +108,48 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 	
 	public EstacionamientoDTO obtenerVehiculoEstacionado(String placa) {
 		Estacionamiento estacionamiento = estacionamientoRepository.obtenerVehiculoEstacionado(placa); 
-		return estacionamientoFactory.convertirModelo(estacionamiento);
+		return estacionamientoFactory.convertirModeloaDTO(estacionamiento);
 	}
 
-	public Double generarReciboSalida(Estacionamiento estacionamiento, Date fechaSalida) {
+	@Override
+	public void registrarSalidaEstacionamiento(EstacionamientoDTO estacionamientoDTO) {
+		Date fechaSalida = new Date();
+		estacionamientoDTO.setPrecio(generarReciboSalida(estacionamientoDTO, fechaSalida));
+		estacionamientoDTO.setFechaSalida(fechaSalida);
+		estacionamientoRepository.save(estacionamientoFactory.convertirDTOaModelo(estacionamientoDTO));
+	}
+	
+	public Double generarReciboSalida(EstacionamientoDTO estacionamientoDTO, Date fechaSalida) {
+		Estacionamiento estacionamiento = estacionamientoFactory.convertirDTOaModelo(estacionamientoDTO);
 		try {
 			Long diferenciaFechas = fechaSalida.getTime() - estacionamiento.getFechaIngreso().getTime();
 			int horasDiferencia = (int) TimeUnit.HOURS.convert(diferenciaFechas, TimeUnit.MILLISECONDS);
-			int diasDiferencia = (int) TimeUnit.DAYS.convert(diferenciaFechas, TimeUnit.MILLISECONDS);
-			if (horasDiferencia >= MIN_HORAS_COBRO_DIA) {
-				diasDiferencia += 1;
-			} else if (horasDiferencia == 0) {
-				horasDiferencia = 1;
-			}
-			return estacionamiento.calcularPrecio(horasDiferencia, diasDiferencia, estacionamiento.getVehiculo().getCilindraje());
+			TiempoEstacionamiento tiempo = calcularTiempoEstacionamiento(horasDiferencia);
+			return estacionamiento.calcularPrecio(tiempo.getHorasDiferencia(), tiempo.getDiasDiferencia(), estacionamiento.getVehiculo().getCilindraje());
 		} catch (CeibaException e) {
 			throw new CeibaException("Ocurrio un error calculando el precio total a pagar en el estacionamiento " + e);
 		}
+	}
+	
+	public TiempoEstacionamiento calcularTiempoEstacionamiento(int horasDiferencia) {
+		int diasDiferencia = 0;
+		int horasRestantes = 0;
+		if (horasDiferencia >= MIN_HORAS_COBRO_DIA && horasDiferencia <= MAX_HORAS_COBRO_DIA) {
+			diasDiferencia = 1;
+			horasDiferencia = 0;
+		} else if (horasDiferencia > MAX_HORAS_COBRO_DIA) {
+			diasDiferencia = (horasDiferencia / MAX_HORAS_COBRO_DIA);
+			horasRestantes = (horasDiferencia % MAX_HORAS_COBRO_DIA);
+			if (horasRestantes < MIN_HORAS_COBRO_DIA) {
+				horasDiferencia = horasRestantes;
+			} else {
+				diasDiferencia += 1;
+				horasDiferencia = 0;
+			}
+		} else if (horasDiferencia == 0) {
+			horasDiferencia = 1;
+		}
+		
+		return new TiempoEstacionamiento(horasDiferencia, diasDiferencia);
 	}
 }

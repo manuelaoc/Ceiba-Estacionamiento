@@ -16,7 +16,7 @@ import com.ceiba.estacionamiento.model.enumeration.TipoVehiculoEnum;
 public class EstacionamientoFactoryImpl implements EstacionamientoFactory{
 
 	@Override
-	public Estacionamiento convertirDTO(EstacionamientoDTO estacionamientoDTO) {
+	public Estacionamiento convertirDTOaModelo(EstacionamientoDTO estacionamientoDTO) {
 		Estacionamiento estacionamiento = null;
 		Integer tipoVehiculo = estacionamientoDTO.getVehiculo().getTipoVehiculo();
 		if(tipoVehiculo == TipoVehiculoEnum.CARRO.getId()) {
@@ -36,7 +36,7 @@ public class EstacionamientoFactoryImpl implements EstacionamientoFactory{
 	}
 
 	@Override
-	public EstacionamientoDTO convertirModelo(Estacionamiento estacionamiento) {
+	public EstacionamientoDTO convertirModeloaDTO(Estacionamiento estacionamiento) {
 		if (estacionamiento != null) {
 			EstacionamientoDTO estacionamientoDTO = new EstacionamientoDTO();
 			estacionamientoDTO.setId(estacionamiento.getId());
@@ -51,7 +51,7 @@ public class EstacionamientoFactoryImpl implements EstacionamientoFactory{
 
 	@Override
 	public List<EstacionamientoDTO> convertirListaModelo(List<Estacionamiento> estacionamientos) {
-		return estacionamientos.stream().map(e -> convertirModelo(e)).collect(Collectors.toList());
+		return estacionamientos.stream().map(e -> convertirModeloaDTO(e)).collect(Collectors.toList());
 	}
 
 }
