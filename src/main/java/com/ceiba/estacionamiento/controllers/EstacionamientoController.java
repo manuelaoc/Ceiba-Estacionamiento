@@ -38,12 +38,12 @@ public class EstacionamientoController {
 	}
 	
 	@PostMapping(ESTACIONAMIENTO)
-	public void registrarIngresoEstacionamiento(@Valid @RequestBody EstacionamientoDTO estacionamientoDTO) {
-		estacionamientoService.registrarIngresoEstacionamiento(estacionamientoDTO);
+	public ResponseEntity<EstacionamientoDTO> registrarIngresoEstacionamiento(@Valid @RequestBody EstacionamientoDTO estacionamientoDTO) {
+		return new ResponseEntity<>(estacionamientoService.registrarIngresoEstacionamiento(estacionamientoDTO), HttpStatus.CREATED);
 	}
 	
 	@PutMapping(ESTACIONAMIENTO)
-	public void registrarSalidaEstacionamiento(@Valid @RequestBody EstacionamientoDTO estacionamientoDTO) {
-		estacionamientoService.registrarSalidaEstacionamiento(estacionamientoDTO); 
+	public ResponseEntity<EstacionamientoDTO> registrarSalidaEstacionamiento(@Valid @RequestBody EstacionamientoDTO estacionamientoDTO) {
+		return new ResponseEntity<>(estacionamientoService.registrarSalidaEstacionamiento(estacionamientoDTO), HttpStatus.OK);
 	}
 }

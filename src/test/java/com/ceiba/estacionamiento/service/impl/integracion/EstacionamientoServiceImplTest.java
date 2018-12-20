@@ -22,7 +22,7 @@ import com.ceiba.estacionamiento.testdatabuilder.VehiculoTestDataBuilder;
 @SpringBootTest
 public class EstacionamientoServiceImplTest {
 
-	public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	public SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	public EstacionamientoDTO estacionamientoEsperado;
 	public Vehiculo vehiculo;
 	
