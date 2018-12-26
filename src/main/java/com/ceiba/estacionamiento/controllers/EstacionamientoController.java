@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.ceiba.estacionamiento.dto.EstacionamientoDTO;
 import com.ceiba.estacionamiento.service.EstacionamientoService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/api")
 public class EstacionamientoController {
 
@@ -34,7 +36,7 @@ public class EstacionamientoController {
 	
 	@GetMapping(ESTACIONAMIENTO+"/{placa}")
 	public ResponseEntity<EstacionamientoDTO> obtenerEstacionamientoByPlaca(@PathVariable String placa){
-		return new ResponseEntity<>(estacionamientoService.obtenerEstacionamientoByPlaca(placa), HttpStatus.OK);
+		return new ResponseEntity<>(estacionamientoService.obtenerVehiculoEstacionado(placa), HttpStatus.OK);
 	}
 	
 	@PostMapping(ESTACIONAMIENTO)

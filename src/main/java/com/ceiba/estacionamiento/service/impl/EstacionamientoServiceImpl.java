@@ -41,7 +41,7 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 	
 	@Override
 	public List<EstacionamientoDTO> obtenerEstacionamientos() {
-		List<Estacionamiento> estacionamientos = estacionamientoRepository.findAll(); 
+		List<Estacionamiento> estacionamientos = estacionamientoRepository.obtenerEstacionamientos(); 
 		return estacionamientoFactory.convertirListaModelo(estacionamientos);
 	}
 
@@ -58,8 +58,9 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 
 	@Override
 	public EstacionamientoDTO registrarIngresoEstacionamiento(EstacionamientoDTO estacionamientoDTO) {
-		Estacionamiento estacionamiento = estacionamientoRepository.save(validarSiEsPosibleEstacionar(estacionamientoDTO));
-		return estacionamientoFactory.convertirModeloaDTO(estacionamiento);
+		Estacionamiento estacionamiento = validarSiEsPosibleEstacionar(estacionamientoDTO);
+		estacionamiento.setFechaIngreso(new Date());
+		return estacionamientoFactory.convertirModeloaDTO(estacionamientoRepository.save(estacionamiento));
 	}
 	
 	@Override
@@ -114,7 +115,7 @@ public class EstacionamientoServiceImpl implements EstacionamientoService{
 	
 	@Override
 	public EstacionamientoDTO obtenerVehiculoEstacionado(String placa) {
-		Estacionamiento estacionamiento = estacionamientoRepository.obtenerVehiculoEstacionado(placa); 
+		Estacionamiento estacionamiento = estacionamientoRepository.obtenerVehiculoEstacionadoByPlaca(placa); 
 		return estacionamientoFactory.convertirModeloaDTO(estacionamiento);
 	}
 

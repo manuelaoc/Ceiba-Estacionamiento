@@ -56,7 +56,7 @@ public class EstacionamientoControllerTest {
 	@Test
 	public void obtenerEstacionamientoPorPlacaTest() throws Exception {
 		EstacionamientoDTO estacionamiento = new EstacionamientoTestDataBuilder().build();
-		when(estacionamientoService.obtenerEstacionamientoByPlaca(estacionamiento.getVehiculo().getPlaca())).thenReturn(estacionamiento);
+		when(estacionamientoService.obtenerVehiculoEstacionado(estacionamiento.getVehiculo().getPlaca())).thenReturn(estacionamiento);
 		
 		mocMvc.perform(get(ESTACIONAMIENTO+"/{placa}",estacionamiento.getVehiculo().getPlaca()).contentType(MediaType.APPLICATION_JSON)).
 			andExpect(status().isOk()).

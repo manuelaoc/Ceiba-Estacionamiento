@@ -1,5 +1,7 @@
 package com.ceiba.estacionamiento.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,6 +12,9 @@ import com.ceiba.estacionamiento.model.Estacionamiento;
 @Repository
 public interface EstacionamientoRepository extends JpaRepository<Estacionamiento, Long> {
 	
+	@Query("SELECT est FROM Estacionamiento est WHERE est.fechaSalida IS NULL AND est.precio IS NULL")
+	List<Estacionamiento> obtenerEstacionamientos();
+	
 	@Query("SELECT est FROM Estacionamiento est WHERE est.vehiculo.placa = (:placa)")
 	Estacionamiento buscarEstacionamientoByPlaca(@Param("placa") String placa);
 	
@@ -17,5 +22,5 @@ public interface EstacionamientoRepository extends JpaRepository<Estacionamiento
 	Integer contarVehiculosByTipo(@Param("idTipoVehiculo") Integer idTipoVehiculo);
 	
 	@Query("SELECT est FROM Estacionamiento est WHERE est.vehiculo.placa = (:placa) AND est.fechaSalida IS NULL AND est.precio IS NULL")
-	Estacionamiento obtenerVehiculoEstacionado(@Param("placa") String placa);
+	Estacionamiento obtenerVehiculoEstacionadoByPlaca(@Param("placa") String placa);
 }
