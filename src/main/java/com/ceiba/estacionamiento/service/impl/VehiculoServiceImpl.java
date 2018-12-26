@@ -1,7 +1,5 @@
 package com.ceiba.estacionamiento.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,18 +14,13 @@ public class VehiculoServiceImpl implements VehiculoService{
 	private VehiculoRepository vehiculoRepository;
 	
 	@Override
-	public List<Vehiculo> obtenerVehiculos() {
-		return vehiculoRepository.findAll();
-	}
-
-	@Override
-	public Vehiculo obtenerVehiculoByPlaca(String placa) {
-		return vehiculoRepository.findByPlaca(placa);
-	}
-
-	@Override
 	public Vehiculo crearVehiculo(Vehiculo vehiculo) {
-		return vehiculoRepository.save(vehiculo);
+		Vehiculo vehiculoExistente = vehiculoRepository.findByPlaca(vehiculo.getPlaca());
+		if (vehiculoExistente != null) {
+			return vehiculoExistente;
+		} else {
+			return vehiculoRepository.save(vehiculo);
+		}
 	}
 
 	@Override
