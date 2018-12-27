@@ -34,8 +34,8 @@ public class EstacionamientoServiceImplTest {
 
 	@After
 	public void after() {
-		estacionamientoService.eliminarEstacionamiento(estacionamientoEsperado);
-		vehiculoService.eliminarVehiculo(vehiculo);
+//		estacionamientoService.eliminarEstacionamiento(estacionamientoEsperado);
+//		vehiculoService.eliminarVehiculo(vehiculo);
 	}
 	
 	@Test
